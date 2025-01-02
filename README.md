@@ -392,5 +392,81 @@ def good(lst=None):  # Do this instead
     return lst
 ```
 
+## Zip
+```python
+>>> numbers = [1, 2, 3]
+>>> letters = ['a', 'b', 'c']
+
+# match 2 lists by index
+>>> zipped = zip(numbers, letters)
+>>> list(zipped)
+[(1, 'a'), (2, 'b'), (3, 'c')]
+
+# to take longest iterable
+>>> from itertools import zip_longest
+>>> longest = range(5)  # [0, 1, 2, 3, 4]
+>>> zipped = zip_longest(numbers, letters, longest, fillvalue='?')
+>>> list(zipped)
+[(1, 'a', 0), (2, 'b', 1), (3, 'c', 2), ('?', '?', 3), ('?', '?', 4)]
+
+# verify that both arguments are of equal length
+>>> list(zip(range(5), range(100), strict=True))  # strict=False is default
+
+# unzipping a sequence
+# use unpacking operator * to unzip the data
+# *[1, 2, 3] -> 1, 2, 3
+>>> pairs = [(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd')]
+# *pairs = (1, 'a'), (2, 'b'), (3, 'c'), (4, 'd')
+# list(zip(*pairs)) = [(1, 2, 3, 4), ('a', 'b', 'c', 'd')]
+>>> numbers, letters = zip(*pairs)
+>>> numbers
+(1, 2, 3, 4)
+>>> letters
+('a', 'b', 'c', 'd')
+```
+
+# APIs
+## GET
+```python
+import requests
+response = requests.get(URL, timeout=10) # good practice
+if response.status_code == 200:
+    users = response.json()
+    for user in users:
+        print(user)
+else:
+    print("Failed to retrieve users:", response.status_code)
+    
+# query parameters (arguments for an api call)
+params = {
+    'userId': 1
+}
+response = requests.get(URL, params=params)
+
+# headers
+headers = {
+    'Authorization': 'Bearer YOUR_ACCESS_TOKEN'
+}
+response = requests.get(URL, headers=headers)
+```
+## POST
+```python
+new_user = {
+    "name": "John Doe",
+    "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+    }
+}
+response = requests.post(URL, json=new_user)
+if response.status_code == 201:
+    user = response.json()
+    print("Created new user:", user)
+```
+## DELETE
+```python
+response = requests.delete(URL)
+```
+![image](https://github.com/user-attachments/assets/c9202c0c-7739-4eb1-a5d0-9132ff8d8616)
 ---
 Made with ❤️ for fellow leetcoders.
